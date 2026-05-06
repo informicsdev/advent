@@ -486,7 +486,7 @@ p {
         <div class="text-block">
           <h3>True Flexibility & Scalability</h3>
           <p>
-            Easily enhance your firm's business intelligence now and in the future. Data Lens integrates seamlessly with existing SS&C solutions (APX) and offers natural flexibility and scalability.
+            Easely enhance your firm's business intelligence now and in the future. Data Lens integrates seamlessly with existing SS&C solutions (APX) and offers natural flexibility and scalability.
           </p>
           <h3>Greater Portfolio Transparency</h3>
           <p>
@@ -591,6 +591,53 @@ p {
           </div>
         </div>
       </div>
+</section>
+
+<!-- SECTION WITH STEPPER NO LEFT COLUMN -->
+<section class="slide" style="background-color: rgb(82, 81, 81)">
+    <div class="full-width-stepper" style="padding: 0; width: 100%;">
+        <div class="stepper">
+            <div class="step-content-area">
+                <div class="step active">
+                    <h3>
+                      Your single operational experience to power your investment strategies.
+                    </h3>
+                    <p>
+                      The Genesis platform offers deep, purpose-built applications covering all facets of the investment lifecycle - portfolio management, trading, analytics, accounting, and reporting. Built on a centralized cloud-based data store, the platform enables teams to access their everyday solutions in one place. Everyone on your team, from the front to the back office, can trust that they are working with the same data. Streamline operations, speed up workflows, optimize efficiency and accuracy, gain agility, and drive firm-wide collaboration. The Genesis platform is exactly what you need to set your firm up for success in an increasingly complex, competitive, and fast-paced marketplace.
+                    </p>
+                    <p>
+                      Genesis is your unified, cloud-native platform built for flexibility and scale – empowering you to modernize at your own pace, without costly workarounds or fragmented systems.
+                    </p>
+                </div>
+                <div class="step">
+                    <h3>One Platform. Every Role. Total Clarity.</h3>
+                    <p>
+                      Genesis is a cloud native, intelligent enterprise investment management platform that unifies data, workflows, and teams across your entire investment office. By eliminating fragmented systems and real time data gaps, Genesis gives portfolio managers, traders, and operations teams a single source of truth—powering faster decisions, cleaner execution, and scalable growth.
+                    </p>
+                    <p>
+                      Genesis is a unified, cloud-native investment management solution that connects your entire investment office on a single, trusted data platform. Built for the way firms serving private and institutional investors — or both - work today, Genesis eliminates silos and enables real-time interoperability across the entire investment lifecycle including, portfolio management, trading, accounting, and reporting.
+                    </p>
+                </div>
+                <div class="step">
+                    <h3>
+                      Unified Applications for the Modern Investment Office
+                    </h3>
+                    <p>
+                      Genesis delivers seamlessly connected applications—each purpose-built to empower every role across your investment office. Data Analytics & Insights: Advanced analytics and visualization tools for portfolio analysis and decision-making. Portfolio Management: Model, construct, and rebalance portfolios at scale, with real-time scenario analysis, exception monitoring, and support for multi-asset, multi-sleeve, and multi-currency strategies.
+                    </p>
+                    <p>
+                      Trading & Compliance: OMS workflows with real-time compliance checks, market connectivity, and seamless market data integration. Accounting & Operations: Complete IBOR/ABOR functionality for accurate, real-time valuations and reconciliations. Managed operations offerings free up time.
+                    </p>
+                </div>
+            </div>
+
+            <div class="step-controls">
+                <a class="step-back hidden" style="text-decoration: none; font-size: 14px;">BACK</a>
+                <div class="dots stepper-dots"></div>
+                <a class="step-next" style="text-decoration: none; font-size: 14px;">NEXT</a>
+            </div>
+        </div>
+    </div>
 </section>
 
 <!-- ACCORDION SECTION -->
@@ -714,41 +761,56 @@ document.querySelectorAll('.acc-item').forEach(item => {
   });
 });
 
-// STEPPER SCRIPT
+// STEPPER SCRIPT (Updated to support multiple independent instances)
 document.addEventListener("DOMContentLoaded", () => {
-  const stepper = document.querySelector(".stepper");
-  if (!stepper) return;
-  const steps = stepper.querySelectorAll(".step");
-  const backBtn = stepper.querySelector(".step-back");
-  const nextBtn = stepper.querySelector(".step-next");
-  const dotsContainer = stepper.querySelector(".stepper-dots");
-  let index = 0;
+  const steppers = document.querySelectorAll(".stepper");
+  
+  steppers.forEach((stepper) => {
+    const steps = stepper.querySelectorAll(".step");
+    const backBtn = stepper.querySelector(".step-back");
+    const nextBtn = stepper.querySelector(".step-next");
+    const dotsContainer = stepper.querySelector(".stepper-dots");
+    let index = 0;
 
-  // Build dots
-  steps.forEach((_, i) => {
-    const dot = document.createElement("span");
-    dot.classList.add("dot");
-    if (i === 0) dot.classList.add("active");
-    dot.addEventListener("click", () => { index = i; render(); });
-    dotsContainer.appendChild(dot);
+    // Build dots for this specific stepper
+    steps.forEach((_, i) => {
+      const dot = document.createElement("span");
+      dot.classList.add("dot");
+      if (i === 0) dot.classList.add("active");
+      dot.addEventListener("click", () => { index = i; render(); });
+      dotsContainer.appendChild(dot);
+    });
+    
+    const dots = dotsContainer.querySelectorAll(".dot");
+
+    function render() {
+      steps.forEach(step => step.classList.remove("active"));
+      void stepper.offsetWidth;
+      steps[index].classList.add("active");
+
+      dots.forEach(d => d.classList.remove("active"));
+      dots[index].classList.add("active");
+
+      if(backBtn) backBtn.classList.toggle("hidden", index === 0);
+      if(nextBtn) nextBtn.classList.toggle("hidden", index === steps.length - 1);
+    }
+
+    if(backBtn) {
+      backBtn.addEventListener("click", (e) => { 
+        e.preventDefault(); 
+        if (index > 0) { index--; render(); } 
+      });
+    }
+    
+    if(nextBtn) {
+      nextBtn.addEventListener("click", (e) => { 
+        e.preventDefault(); 
+        if (index < steps.length - 1) { index++; render(); } 
+      });
+    }
+    
+    render();
   });
-  const dots = dotsContainer.querySelectorAll(".dot");
-
-  function render() {
-    steps.forEach(step => step.classList.remove("active"));
-    void stepper.offsetWidth;
-    steps[index].classList.add("active");
-
-    dots.forEach(d => d.classList.remove("active"));
-    dots[index].classList.add("active");
-
-    backBtn.classList.toggle("hidden", index === 0);
-    nextBtn.classList.toggle("hidden", index === steps.length - 1);
-  }
-
-  backBtn.addEventListener("click", (e) => { e.preventDefault(); if (index > 0) { index--; render(); } });
-  nextBtn.addEventListener("click", (e) => { e.preventDefault(); if (index < steps.length - 1) { index++; render(); } });
-  render();
 });
 </script>
 
