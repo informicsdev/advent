@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Example page</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #000;
+  color: #fff;
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+}
+
+section { scroll-snap-align: start; }
+
+/* =========================
+   TYPOGRAPHY
+   ========================= */
+h1 {
+  font-size: 4rem;
+  font-weight: 400;
+  margin-bottom: 40px;
+}
+
+h2 {
+  font-size: 3rem;
+  font-weight: 400;
+  line-height: 1.2;
+  margin: 0 0 40px 0;
+}
+
+h3 {
+  font-size: 1.75rem;
+  font-weight: 400;
+  line-height: 1.35;
+  margin: 0 0 15px 0;
+}
+
+h4 {
+  margin: 0 0 10px 0;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+}
+
+p {
+  font-size: 1.4rem;
+  line-height: 1.4;
+  margin: 0 0 25px 0;
+  color: #ddd;
+}
+
+/* =========================
+   SECTIONS
+   ========================= */
+.title-tile {
+  height: 45vh;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  background: #111;
+  padding-left: 75px;
+}
+
+.overview-tile {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  background: #818181;
+  padding: 75px;
+}
+
+/* =========================
+   SWIPER CORE
+   ========================= */
+.swiper {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.viewport {
+  overflow: hidden;
+}
+
+.slides {
+  display: flex;
+  transition: transform 0.6s ease;
+}
+
+.slide {
+  flex: 0 0 100%;
+  padding: 75px;
+}
+
+/* =========================
+   FIRST SLIDE LAYOUT
+   ========================= */
+.first-slide {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: auto 1fr;
+  row-gap: 0px;
+  column-gap: 75px;
+}
+
+.second-slide {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  column-gap: 75px;
+  align-items: start;
+}
+
+.split-slide {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto 1fr;
+  row-gap: 0px;
+  column-gap: 75px;
+}
+
+.header-block { grid-column: 1; grid-row: 1; }
+.text-block { grid-column: 1; grid-row: 2; }
+
+.slide-image {
+  grid-column: 2;
+  grid-row: 2;
+  display: flex;
+  align-items: flex-start;
+}
+
+.slide-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  padding-bottom: 50px;
+}
+
+.swiper-1 .slide:nth-child(5) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;   /* horizontal centering */
+  text-align: center;    /* center text */
+}
+
+/* COLORS */
+.swiper-1 .slide:nth-child(1) { background: #2a2a2a; }
+.swiper-1 .slide:nth-child(2) { background: #3a3a3a; }
+.swiper-1 .slide:nth-child(3) { background: #4a4a4a; }
+.swiper-1 .slide:nth-child(4) { background: #5a5a5a; }
+.swiper-1 .slide:nth-child(5) { background: #6a6a6a; }
+
+.swiper-2 .slide:nth-child(1) { background: #1f1f1f; }
+.swiper-2 .slide:nth-child(2) { background: #2f2f2f; }
+.swiper-2 .slide:nth-child(3) { background: #3f3f3f; }
+
+/* =========================
+   CONTROLS 
+   ========================= */
+.controls {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.arrow {
+  font-size: 2rem;
+  cursor: pointer;
+  user-select: none;
+  color: #fff;
+  pointer-events: auto;
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+
+.arrow.disabled {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.dots {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  background: #888;
+  border-radius: 50%;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.dot.active { background: #fff; }
+
+/* =========================
+   STEPPER DOTS OVERRIDE
+   ========================= */
+.stepper-dots {
+  position: static;
+  transform: none;
+  pointer-events: auto;
+}
+
+/* =========================
+   ACCORDION
+   ========================= */
+
+.accordion-wrapper {
+  width: 100%;
+  max-width: 1200px;
+}
+
+.accordion {
+  width: 100%;
+}
+
+.acc-item {
+  position: relative;
+}
+
+.acc-item::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: rgba(255,255,255,0.2);
+  transform: scaleX(1);
+  transform-origin: left;
+  transition: transform 0.4s ease, background 0.3s ease;
+}
+
+.acc-item:hover::after,
+.acc-item.open::after {
+  background: rgba(255,255,255,0.5);
+  transform: scaleX(1);
+}
+
+.acc-header {
+  width: 100%;
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.65);
+  padding: 30px 0;
+  font-size: 1.6rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: color 0.25s ease;
+}
+
+.acc-header:hover,
+.acc-item.open .acc-header {
+  color: #fff;
+}
+
+.acc-content {
+  height: 0;
+  overflow: hidden;
+  transition: height 0.55s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.acc-content-inner {
+  padding: 0 0 35px 0;
+}
+
+.acc-content-inner p {
+  opacity: 0;
+  transform: translateY(12px);
+  color: #fff;
+  transition: 
+    opacity 0.45s ease, 
+    transform 0.45s ease;
+}
+
+.acc-content-inner p:nth-child(1) { transition-delay: 0.05s; }
+.acc-content-inner p:nth-child(2) { transition-delay: 0.1s; }
+.acc-content-inner p:nth-child(3) { transition-delay: 0.15s; }
+.acc-content-inner p:nth-child(4) { transition-delay: 0.2s; }
+
+.acc-item.open .acc-content-inner p {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.acc-icon {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.acc-icon::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: #fff;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+.acc-icon::after {
+  content: "";
+  position: absolute;
+  width: 2px;
+  height: 100%;
+  background: #fff;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%) scaleY(1);
+  transform-origin: center;
+  transition: transform 0.35s cubic-bezier(0.65, 0, 0.35, 1);
+  transition-delay: 0.1s;
+}
+
+.acc-item.open .acc-icon::after {
+  transform: translateX(-50%) scaleY(0);
+}
+
+/* =========================
+   STEPPER 
+   ========================= */
+   
+.stepper {
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 550px; 
+}
+
+.step-content-area {
+  position: relative;
+  flex: 1;
+}
+
+.stepper .step {
+  position: absolute;
+  inset: 0;
+
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+
+  transition:
+    opacity 380ms cubic-bezier(0.4, 0, 0.2, 1),
+    transform 380ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  will-change: opacity, transform;
+}
+
+.stepper .step.active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  position: relative;
+}
+
+.step-controls {
+  margin-top: auto; 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+  padding-top: 20px;
+}
+
+.step-controls a {
+  color: #fff;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* Using visibility hidden so the "Back" link still holds space on slide 1, 
+   keeping the "Next" link pinned to the right side. */
+.step-back.hidden,
+.step-next.hidden {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- BANNER -->
+<section class="title-tile">
+  <div>
+    <h1>Advent Portfolio Exchange<sup style="font-size:20px">®</sup></h1>
+    <h3 style="margin-right:75px;">
+      Ensure everyone in your firm is on the same platform — and the same page — with our integrated portfolio and client management solution.
+    </h3>
+  </div>
+</section>
+
+<!-- OVERVIEW -->
+<section class="overview-tile">
+  <div>
+    <h4>THE SOLUTION</h4>
+    <h2>Simplify Portfolio Accounting and Reporting</h2>
+    <p>
+      In a complex and competitive investment landscape, you need to be on top of your game. The right technology can stack the odds in your favor. Enter Advent Portfolio Exchange (APX): the world's first integrated client relationship management and portfolio management solution.
+    </p>
+    <p>
+      Part of the powerful Advent Investment Suite, APX connects your entire enterprise - front, middle, and back offices - on a single platform.
+    </p>
+    <p>
+      Simplify operations with a centralized, scalable platform for all your portfolio, relationship, and prospect data.
+    </p>
+  </div>
+</section>
+
+<!-- SWIPER 1 -->
+<section class="swiper swiper-1">
+  <div class="viewport">
+    <div class="slides">
+      <div class="slide first-slide">
+        <div class="header-block">
+          <h4>FEATURED PRODUCT BRIEF</h4>
+          <h2>Genesis Data Lens for APX</h2>
+        </div>
+        <div class="text-block">
+          <p>
+            Envision your firm's strategy, evaluate exposure, and gain a comprehensive view of your firm's performance over time while spending less time manually curating and manipulating your investment data. With Genesis Data Lens for APX, your investment data is curated, enriched, and ready to use.
+          </p>
+          <p>
+            Built on the robust infrastructure of the Genesis platform, Data Lens pulls in APX data and transforms it into actionable insight through structured aggregation and visualization.
+          </p>
+          <p>
+            Data Lens for APX resolves data integration, aggregation, and visualization challenges while it strengthens analytic and reporting capabilities to deliver truly insightful business intelligence.
+          </p>
+        </div>
+        <div class="slide-image">
+          <img src="thumbnail.jpg" alt="Thumbnail">
+        </div>
+      </div>
+
+      <div class="slide first-slide">
+        <div class="header-block">
+          <h4>FEATURED PRODUCT BRIEF</h4>
+          <h2>Genesis Data Lens for APX</h2>
+        </div>
+        <div class="text-block">
+          <h3>Commingled Ecosystem-wide Data</h3>
+          <p>
+            Gain a holistic view of data residing in multiple systems without complicated processes. Data Lens aggregates and integrates data from multiple sources across the ecosystem (APX and non-SS&C systems) into a unified dashboard or report for cross-source, comprehensive insights.
+          </p>
+          <h3>Streamlined Internal Report Distribution</h3>
+          <p>
+            You can generate and distribute internal reports without manual effort or inefficiency. Data Lens automates recurring reports and supports internal stakeholders' ad hoc analysis via managed data access.
+          </p>
+        </div>
+        <div class="slide-image">
+          <img src="thumbnail.jpg" alt="Thumbnail">
+        </div>
+      </div>      
+
+      <div class="slide">
+        <div class="header-block">
+          <h4>FEATURED PRODUCT BRIEF</h4>
+          <h2>Genesis Data Lens for APX</h2>
+        </div>
+        <div class="text-block">
+          <h3>True Flexibility & Scalability</h3>
+          <p>
+            Easily enhance your firm's business intelligence now and in the future. Data Lens integrates seamlessly with existing SS&C solutions (APX) and offers natural flexibility and scalability.
+          </p>
+          <h3>Greater Portfolio Transparency</h3>
+          <p>
+            Genesis’ innovative architecture is powered by a unified data lake and data warehouse capable of storing any type of data. Our innovative, unifying data layer seamlessly integrates information across applications and functions, providing a single source of truth for stronger compliance, better informed decisions, and enhanced collaboration across teams.
+          </p>
+          <h3>Out-of-the-Box Data Analytics & Visualizations</h3>
+          <p>
+            Your front-office users can get a complete view of data from the portfolio accounting system of record (APX). Utilizing the latest technologies, Genesis offers added efficiency and accuracy to deliver faster, more comprehensive services and the underlying readiness for innovations to drive top-line growth. 
+          </p>
+        </div>
+      </div>
+
+      <div class="slide split-slide">
+        <div class="header-block">
+          <h4>FEATURED PRODUCT BRIEF</h4>
+          <h2>Genesis Data Lens for APX</h2>
+        </div>
+        <div class="text-block">
+          <h3>Form Slide Heading</h3>
+          <p>
+            If this were a gated resource, this is what a form slide could look like. Content or descriptive blurb on the left side, with the embedded Marketo form on the right side.
+          </p>
+        </div>
+        <div class="slide-image">
+          <img src="form-placeholder.jpg" alt="Thumbnail">
+        </div>
+      </div>
+
+     <div class="slide">
+        <div class="header-block">
+          <h4>VIDEO</h4>
+          <h2>Watch a Video</h2>
+        </div>
+        <div class="text-block">
+          <h3>This could be a Vidyard video.</h3>
+          <p>This is a stock video for testing.</p>
+          <video controls width="100%" style="height:400px; width:auto;">
+            <source src="video.mp4" type="video/mp4">
+          </video>
+        </div>
+     </div>
+    </div>
+  </div>
+  <div class="controls">
+    <div class="arrow left">&#10094;</div>
+    <div class="arrow right">&#10095;</div>
+    <div class="dots"></div>
+  </div>
+</section>
+
+<!-- SECTION WITH STEPPER -->
+<section class="slide">
+      <div class="second-slide">
+        <div class="header-block">
+          <h4>FEATURED PRODUCT BRIEF</h4>
+          <h2>Genesis Data Lens for APX</h2>
+          <div class="text-block" style="padding:0; margin-top:20px;">
+             <p>
+               Genesis’ innovative architecture is powered by a unified data lake and data warehouse capable of storing any type of data. Our innovative, unifying data layer seamlessly integrates information across applications and functions, providing a single source of truth for stronger compliance, better informed decisions, and enhanced collaboration across teams.
+             </p>
+             <p>
+               Data Lens for APX resolves data integration, aggregation, and visualization challenges.
+             </p>
+          </div>
+        </div>
+        
+        <div class="stepper">
+          <div class="step-content-area">
+            <div class="step active">
+              <h3>Commingled Ecosystem-wide Data</h3>
+              <p>
+                Gain a holistic view of data residing in multiple systems without complicated processes. Data Lens aggregates and integrates data from multiple sources across the ecosystem into a unified dashboard.
+              </p>
+              <p>
+                This ensures comprehensive insights across all your data sources. Built on the robust infrastructure of the Genesis platform, Data Lens pulls in APX data and transforms it into actionable insight.
+              </p>
+            </div>
+            <div class="step">
+              <h3>Streamlined Internal Report Distribution</h3>
+              <p>
+                You can generate and distribute internal reports without manual effort or inefficiency. Data Lens automates recurring reports and supports internal stakeholders' ad hoc analysis.
+              <p>
+                With its flexible cloud architecture, the Genesis platform continues to expand its breadth and depth, now adding Data Lens as its third point application alongside order and portfolio management. The APX development team continues to build out capabilities across operations, performance & risk, investor management, and managed services for the platform. Over the long term, Genesis also plans to leverage its modern, flexible architecture and unified data store to drive enhancements such as artificial intelligence (AI) interrogation and custom firm-data integrations.
+              </p>
+              </p>
+            </div>
+            <div class="step">
+              <h3>Built on the Robust Infrastructure of the Genesis Platform</h3>
+              <p>
+                Envision your firm's strategy, evaluate exposure, and gain a comprehensive view of your firm's performance over time. You can generate and distribute internal reports without manual effort or inefficiency. Data Lens automates recurring reports and supports internal stakeholders' ad hoc analysis.
+              </p>
+              <p>
+                Data Lens for APX strengthens analytic and reporting capabilities to deliver truly insightful business intelligence.
+              </p>
+            </div>
+          </div>
+
+          <div class="step-controls">
+            <a class="step-back hidden" style="text-decoration: none; font-size: 14px;">BACK</a>
+            <div class="dots stepper-dots"></div>
+            <a class="step-next" style="text-decoration: none; font-size: 14px;">NEXT</a>
+          </div>
+        </div>
+      </div>
+</section>
+
+<!-- ACCORDION SECTION -->
+<section class="overview-tile">
+  <div class="accordion-wrapper">
+    <h4>ACCORDION</h4>
+    <h2>Accordion</h2>
+    <h3>Accordion could be used for FAQs or other content.</h3>
+    <div class="accordion">
+
+      <div class="acc-item">
+        <button class="acc-header">
+          <span>What is a feature of Genesis Data Lens for APX?</span>
+          <span class="acc-icon"></span>
+        </button>
+        <div class="acc-content">
+          <div class="acc-content-inner">
+              <h3>Commingled Ecosystem-wide Data</h3>
+              <p>
+                Gain a holistic view of data residing in multiple systems without complicated processes. Data Lens aggregates and integrates data from multiple sources across the ecosystem into a unified dashboard. This ensures comprehensive insights across all your data sources. Built on the robust infrastructure of the Genesis platform, Data Lens pulls in APX data and transforms it into actionable insight.
+              </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-header">
+          <span>Text with image</span>
+          <span class="acc-icon"></span>
+        </button>
+        <div class="acc-content">
+          <div class="acc-content-inner">
+             <div class="slide first-slide" style="padding:0;">
+                <div class="header-block">
+                  <h3>Genesis Data Lens for APX</h3>
+                </div>
+                <div class="text-block">
+                  <p>
+                    Envision your firm's strategy, evaluate exposure, and gain insight. Built on the robust infrastructure of the Genesis platform.
+                  </p>
+                  <p>
+                    Gain a holistic view of data residing in multiple systems without complicated processes. Data Lens aggregates and integrates data from multiple sources across the ecosystem into a unified dashboard. This ensures comprehensive insights across all your data sources. Built on the robust infrastructure of the Genesis platform, Data Lens pulls in APX data and transforms it into actionable insight.
+                  </p>
+                </div>
+                <div class="slide-image">
+                  <img src="thumbnail.jpg" alt="Thumbnail">
+                </div>
+              </div>      
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-header">
+          <span>Watch a video</span>
+          <span class="acc-icon"></span>
+        </button>
+        <div class="acc-content">
+          <div class="acc-content-inner">
+            <p>Data Lens for APX resolves data integration and visualization challenges.</p>
+            <video controls width="100%">
+              <source src="video.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+// SWIPER SCRIPT
+document.querySelectorAll('.swiper').forEach(swiper => {
+  const slides = swiper.querySelector('.slides');
+  const slideCount = slides.children.length;
+  const leftArrow = swiper.querySelector('.left');
+  const rightArrow = swiper.querySelector('.right');
+  const dotsContainer = swiper.querySelector('.dots');
+  let index = 0;
+  for (let i = 0; i < slideCount; i++) {
+    const dot = document.createElement('span');
+    dot.classList.add('dot');
+    if (i === 0) dot.classList.add('active');
+    dot.addEventListener('click', () => go(i));
+    dotsContainer.appendChild(dot);
+  }
+  const dots = dotsContainer.querySelectorAll('.dot');
+  function update() {
+    slides.style.transform = `translateX(-${index * 100}%)`;
+    dots.forEach(d => d.classList.remove('active'));
+    dots[index].classList.add('active');
+    leftArrow.classList.toggle('disabled', index === 0);
+    rightArrow.classList.toggle('disabled', index === slideCount - 1);
+  }
+  function go(i) { index = i; update(); }
+  leftArrow.addEventListener('click', () => { if (index > 0) go(index - 1); });
+  rightArrow.addEventListener('click', () => { if (index < slideCount - 1) go(index + 1); });
+  update();
+});
+
+// ACCORDION SCRIPT
+document.querySelectorAll('.acc-item').forEach(item => {
+  const header = item.querySelector('.acc-header');
+  const content = item.querySelector('.acc-content');
+  header.addEventListener('click', () => {
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.acc-item').forEach(i => {
+      const c = i.querySelector('.acc-content');
+      c.style.height = '0px';
+      i.classList.remove('open');
+    });
+    if (!isOpen) {
+      item.classList.add('open');
+      content.style.height = content.scrollHeight + 'px';
+      content.addEventListener('transitionend', function handler() {
+        content.style.height = 'auto';
+        content.removeEventListener('transitionend', handler);
+      });
+    }
+  });
+});
+
+// STEPPER SCRIPT
+document.addEventListener("DOMContentLoaded", () => {
+  const stepper = document.querySelector(".stepper");
+  if (!stepper) return;
+  const steps = stepper.querySelectorAll(".step");
+  const backBtn = stepper.querySelector(".step-back");
+  const nextBtn = stepper.querySelector(".step-next");
+  const dotsContainer = stepper.querySelector(".stepper-dots");
+  let index = 0;
+
+  // Build dots
+  steps.forEach((_, i) => {
+    const dot = document.createElement("span");
+    dot.classList.add("dot");
+    if (i === 0) dot.classList.add("active");
+    dot.addEventListener("click", () => { index = i; render(); });
+    dotsContainer.appendChild(dot);
+  });
+  const dots = dotsContainer.querySelectorAll(".dot");
+
+  function render() {
+    steps.forEach(step => step.classList.remove("active"));
+    void stepper.offsetWidth;
+    steps[index].classList.add("active");
+
+    dots.forEach(d => d.classList.remove("active"));
+    dots[index].classList.add("active");
+
+    backBtn.classList.toggle("hidden", index === 0);
+    nextBtn.classList.toggle("hidden", index === steps.length - 1);
+  }
+
+  backBtn.addEventListener("click", (e) => { e.preventDefault(); if (index > 0) { index--; render(); } });
+  nextBtn.addEventListener("click", (e) => { e.preventDefault(); if (index < steps.length - 1) { index++; render(); } });
+  render();
+});
+</script>
+
+</body>
+</html>
