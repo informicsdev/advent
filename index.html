@@ -75,6 +75,194 @@ p {
 }
 
 /* =========================
+   LIGHTBOX SECTION
+   ========================= */
+
+.lightbox-section {
+  background: #656565;
+  padding: 75px;
+  text-align: center;
+}
+
+.lightbox-section h4,
+.lightbox-section h2,
+.lightbox-section h3,
+.lightbox-section p {
+  text-align: center;
+}
+
+.lightbox-grid {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 50px;
+  flex-wrap: wrap;
+}
+
+.lightbox-box {
+  width: 350px;
+  height: 350px;
+  background: #4d4d4d;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.lightbox-box:hover {
+  background: #363535;
+  transform: translateY(-4px);
+}
+
+.lightbox-box h3 {
+  margin: 0;
+}
+
+/* =========================
+   STRIPE-STYLE CARD ICON
+   ========================= */
+
+.lightbox-box {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.lightbox-icon {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  
+  transition: background 0.2s, border-color 0.2s, transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.lightbox-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox-icon svg {
+  width: 20px;
+  height: 20px;
+  fill: rgba(255, 255, 255, 0.7);
+  transition: fill 0.2s, transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.lightbox-box:hover .lightbox-icon {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.lightbox-box:hover .lightbox-icon svg {
+  fill: #fff;
+}
+
+.lightbox-box:hover .lightbox-icon svg {
+  transform: scale(1.25);
+}
+
+.lightbox-box:hover .lightbox-icon {
+  transform: translate(2px, -2px);
+}
+
+/* =========================
+   STRIPE-STYLE MODAL (UPDATED)
+   ========================= */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* 2) More transparent overlay */
+  background: rgba(0, 0, 0, 0.45); 
+  backdrop-filter: blur(8px);
+  z-index: 10000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease;
+  
+  overflow-y: auto;
+  display: block; 
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.modal-overlay::-webkit-scrollbar {
+  display: none;
+}
+
+.modal-content {
+  background: #222;
+  width: calc(100% - 40px);
+  /* 1) Wider Modal (+150px) */
+  max-width: 1050px; 
+  margin: 60px auto; 
+  border-radius: 16px;
+  position: relative; /* Anchor for close button */
+  
+  transform: translateY(40px);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-overlay.active .modal-content {
+  transform: translateY(0);
+}
+
+/* 3) Close button inside modal */
+.close-modal {
+  position: absolute; 
+  top: 20px;
+  right: 20px;
+  width: 44px;
+  height: 44px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  z-index: 10; 
+}
+
+.close-modal:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: scale(1.1);
+}
+
+.modal-inner-padding {
+  padding: 80px; 
+}
+
+#modalTitle {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+/* =========================
    SWIPER CORE
    ========================= */
 .swiper {
@@ -143,8 +331,8 @@ p {
 .swiper-1 .slide:nth-child(5) {
   display: flex;
   flex-direction: column;
-  align-items: center;   /* horizontal centering */
-  text-align: center;    /* center text */
+  align-items: center;
+  text-align: center;
 }
 
 /* COLORS */
@@ -393,8 +581,6 @@ p {
   cursor: pointer;
 }
 
-/* Using visibility hidden so the "Back" link still holds space on slide 1, 
-   keeping the "Next" link pinned to the right side. */
 .step-back.hidden,
 .step-next.hidden {
   visibility: hidden;
@@ -430,6 +616,51 @@ p {
     <p>
       Simplify operations with a centralized, scalable platform for all your portfolio, relationship, and prospect data.
     </p>
+  </div>
+</section>
+
+<!-- LIGHTBOX SECTION -->
+<section class="lightbox-section">
+  <h4>LIGHTBOXES</h4>
+  <h2>Lightbox Demo</h2>
+  <p>This is another possibility for displaying content. Each box is clickable and will open a lightbox.</p>
+
+  <div class="lightbox-grid">
+    <button class="lightbox-box" data-modal="box1">
+      <div class="lightbox-icon">
+        <div class="lightbox-icon-wrapper">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M13.75 6.75L10.25 6.75L10.25 5L15.5 5L15.5 10.25L13.75 10.25L13.75 6.75Z"></path>
+            <path d="M6.75 10.25L5 10.25L5 15.5L10.25 15.5L10.25 13.75L6.75 13.75L6.75 10.25Z"></path>
+          </svg>
+        </div>
+      </div>
+      <h3>A lot of content in the popup</h3>
+    </button>
+
+    <button class="lightbox-box" data-modal="box2">
+      <div class="lightbox-icon">
+        <div class="lightbox-icon-wrapper">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M13.75 6.75L10.25 6.75L10.25 5L15.5 5L15.5 10.25L13.75 10.25L13.75 6.75Z"></path>
+            <path d="M6.75 10.25L5 10.25L5 15.5L10.25 15.5L10.25 13.75L6.75 13.75L6.75 10.25Z"></path>
+          </svg>
+        </div>
+      </div>
+      <h3>Video</h3>
+    </button>
+
+    <button class="lightbox-box" data-modal="box3">
+      <div class="lightbox-icon">
+        <div class="lightbox-icon-wrapper">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M13.75 6.75L10.25 6.75L10.25 5L15.5 5L15.5 10.25L13.75 10.25L13.75 6.75Z"></path>
+            <path d="M6.75 10.25L5 10.25L5 15.5L10.25 15.5L10.25 13.75L6.75 13.75L6.75 10.25Z"></path>
+          </svg>
+        </div>
+      </div>
+      <h3>Form</h3>
+    </button>
   </div>
 </section>
 
@@ -490,7 +721,7 @@ p {
           </p>
           <h3>Greater Portfolio Transparency</h3>
           <p>
-            Genesis’ innovative architecture is powered by a unified data lake and data warehouse capable of storing any type of data. Our innovative, unifying data layer seamlessly integrates information across applications and functions, providing a single source of truth for stronger compliance, better informed decisions, and enhanced collaboration across teams.
+            Genesis' innovative architecture is powered by a unified data lake and data warehouse capable of storing any type of data. Our innovative, unifying data layer seamlessly integrates information across applications and functions, providing a single source of truth for stronger compliance, better informed decisions, and enhanced collaboration across teams.
           </p>
           <h3>Out-of-the-Box Data Analytics & Visualizations</h3>
           <p>
@@ -545,7 +776,7 @@ p {
           <h2>Genesis Data Lens for APX</h2>
           <div class="text-block" style="padding:0; margin-top:20px;">
              <p>
-               Genesis’ innovative architecture is powered by a unified data lake and data warehouse capable of storing any type of data. Our innovative, unifying data layer seamlessly integrates information across applications and functions, providing a single source of truth for stronger compliance, better informed decisions, and enhanced collaboration across teams.
+               Genesis' innovative architecture is powered by a unified data lake and data warehouse capable of storing any type of data. Our innovative, unifying data layer seamlessly integrates information across applications and functions, providing a single source of truth for stronger compliance, better informed decisions, and enhanced collaboration across teams.
              </p>
              <p>
                Data Lens for APX resolves data integration, aggregation, and visualization challenges.
@@ -709,6 +940,23 @@ p {
   </div>
 </section>
 
+<!-- STRIPE-STYLE MODAL CONTAINER -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-content">
+    <!-- 3) Close button moved inside -->
+    <button class="close-modal" id="closeModal">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M15 5L5 15M5 5l10 10"/>
+      </svg>
+    </button>
+    
+    <div class="modal-inner-padding">
+      <h2 id="modalTitle"></h2>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+</div>
+
 <script>
 // SWIPER SCRIPT
 document.querySelectorAll('.swiper').forEach(swiper => {
@@ -761,7 +1009,7 @@ document.querySelectorAll('.acc-item').forEach(item => {
   });
 });
 
-// STEPPER SCRIPT (Updated to support multiple independent instances)
+// STEPPER SCRIPT
 document.addEventListener("DOMContentLoaded", () => {
   const steppers = document.querySelectorAll(".stepper");
   
@@ -772,7 +1020,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const dotsContainer = stepper.querySelector(".stepper-dots");
     let index = 0;
 
-    // Build dots for this specific stepper
     steps.forEach((_, i) => {
       const dot = document.createElement("span");
       dot.classList.add("dot");
@@ -811,6 +1058,97 @@ document.addEventListener("DOMContentLoaded", () => {
     
     render();
   });
+});
+
+// LIGHTBOX LOGIC
+const modalOverlay = document.getElementById('modalOverlay');
+const modalTitle = document.getElementById('modalTitle');
+const modalBody = document.getElementById('modalBody');
+const closeModal = document.getElementById('closeModal');
+
+function getScrollbarWidth() {
+  return window.innerWidth - document.documentElement.clientWidth;
+}
+
+const modalData = {
+  box1: { 
+    title: "Genesis", 
+    body: `
+      <h3>One Platform. Every Role. Total Clarity.</h3>
+      <p>
+        Genesis is a unified, cloud-native investment management solution that connects your entire investment office on a single, trusted data platform. Built for the way firms serving private and institutional investors — or both-work today, Genesis eliminates silos and enables real-time interoperability across the entire investment lifecycle including, portfolio management, trading, accounting, and reporting.
+      </p> 
+      <p>
+        Genesis empowers every team to access the data and applications they need — without swiveling between or stitching together systems. Portfolio Managers: Real-time insights, scenario modeling, and performance analytics that accelerate and improve decision-making. 
+      </p>
+      <p>
+        Traders: Integrated blotters, compliance checks, and market data in a single workflow for faster execution. 
+      </p>
+      <p>
+        Investment Operations: Transparency into positions, cash, and reconciliations enabling operational efficiency.
+      </p>
+        <img src="thumbnail.jpg" style="width:100%; margin: 20px 0;">
+      <p>
+        At the core of Genesis is a single, enterprise-wide data platform that synchronizes fragmented data into one source of truth, powering seamless workflows and actionable insights across all teams.
+      </p>
+      <p>
+        Data consistency and integrity: A single, shared data source and real-time and intraday synchronization ensure teams are aligned. 
+      </p>
+      <p>
+        Governance and Security: Built-in governance and security ensure data integrity and regulatory confidence. Workflows and actionable insights across all teams.
+      </p>
+      <p>
+        Maximum flexibility: Modernize and scale your investment office on your timeline, with a cloud-native platform that makes it easy to add functionality as needed without disruption.
+      </p>
+    ` 
+  },
+  box2: { 
+    title: "Video", 
+    body: `
+      <p>
+        Genesis is a unified, cloud-native investment management solution that connects your entire investment office on a single, trusted data platform. Built for the way firms serving private and institutional investors — or both-work today, Genesis eliminates silos and enables real-time interoperability across the entire investment lifecycle including, portfolio management, trading, accounting, and reporting.
+      </p> 
+      <video controls width="100%">
+        <source src="video.mp4" type="video/mp4">
+      </video>
+    ` 
+  },
+  box3: { 
+    title: "Contact Us", 
+    body: `
+      <p>
+        Contact us with questions, comments or feedback.
+      </p>
+      <img src="form-placeholder.jpg" style="width:100%; margin: 20px 0;">
+      ` 
+  }
+};
+
+document.querySelectorAll('.lightbox-box').forEach(box => {
+  box.addEventListener('click', () => {
+    const boxId = box.getAttribute('data-modal');
+    modalTitle.innerText = modalData[boxId].title;
+    modalBody.innerHTML = modalData[boxId].body;
+
+    const scrollbarWidth = getScrollbarWidth();
+    document.body.style.paddingRight = `${scrollbarWidth}px`;
+    document.body.style.overflow = 'hidden';
+
+    modalOverlay.classList.add('active');
+  });
+});
+
+const closeFunc = () => {
+  modalOverlay.classList.remove('active');
+  setTimeout(() => {
+    document.body.style.paddingRight = '0px';
+    document.body.style.overflow = 'auto';
+  }, 400); 
+};
+
+closeModal.addEventListener('click', closeFunc);
+modalOverlay.addEventListener('click', (e) => {
+  if (e.target === modalOverlay) closeFunc();
 });
 </script>
 
