@@ -1002,20 +1002,44 @@ document.querySelectorAll('.swiper').forEach(swiper => {
 document.querySelectorAll('.acc-item').forEach(item => {
   const header = item.querySelector('.acc-header');
   const content = item.querySelector('.acc-content');
+
   header.addEventListener('click', () => {
     const isOpen = item.classList.contains('open');
+
+    // Close all other items
     document.querySelectorAll('.acc-item').forEach(i => {
       const c = i.querySelector('.acc-content');
-      c.style.height = '0px';
-      i.classList.remove('open');
+      if (i !== item && i.classList.contains('open')) {
+        // To close smoothly, we set height from 'auto' back to 'px'
+        c.style.height = c.scrollHeight + 'px';
+        // Force a reflow so the browser recognizes the change
+        void c.offsetHeight; 
+        c.style.height = '0px';
+        i.classList.remove('open');
+      }
     });
+
     if (!isOpen) {
+      // OPENING
       item.classList.add('open');
       content.style.height = content.scrollHeight + 'px';
+      
+      // We use a one-time listener to set height to auto after opening
       content.addEventListener('transitionend', function handler() {
-        content.style.height = 'auto';
+        if (item.classList.contains('open')) {
+          content.style.height = 'auto';
+        }
         content.removeEventListener('transitionend', handler);
       });
+    } else {
+      // CLOSING (The fix)
+      // Set height to current pixel value instead of 'auto'
+      content.style.height = content.scrollHeight + 'px';
+      // Force reflow
+      void content.offsetHeight; 
+      // Now animate to 0
+      content.style.height = '0px';
+      item.classList.remove('open');
     }
   });
 });
