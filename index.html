@@ -230,6 +230,7 @@ p {
 }
 
 /* 3) Close button inside modal */
+/* 3) Close button inside modal */
 .close-modal {
   position: absolute; 
   top: 20px;
@@ -244,13 +245,23 @@ p {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease; /* Smoothed transition slightly */
   z-index: 10; 
+}
+
+/* Add this to target the SVG specifically */
+.close-modal svg {
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .close-modal:hover {
   background: rgba(255, 255, 255, 0.15);
   transform: scale(1.1);
+}
+
+/* This makes the X spin 90 degrees on hover */
+.close-modal:hover svg {
+  transform: rotate(90deg);
 }
 
 .modal-inner-padding {
