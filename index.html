@@ -594,6 +594,153 @@ p {
   pointer-events: none;
 }
 
+/* =========================
+   TABBED SECTION
+   ========================= */
+
+.tabbed-section {
+  background: rgb(78, 77, 77);
+  padding: 75px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Tab nav row — pill style */
+.tab-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin: 44px 0 0 0;
+  background: rgba(0,0,0,0.25);
+  border-radius: 0px;
+  padding: 5px;
+  position: relative;
+}
+
+/* Sliding pill background */
+.tab-indicator {
+  position: absolute;
+  top: 5px;
+  height: calc(100% - 10px);
+  background: rgba(255,255,255,0.15);
+  border-radius: 100px;
+  transition: left 0.32s cubic-bezier(0.4, 0, 0.2, 1), width 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.tab-btn {
+  position: relative;
+  z-index: 1;
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.55);
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 400;
+  padding: 9px 20px;
+  cursor: pointer;
+  border-radius: 100px;
+  transition: color 0.22s ease;
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+  outline: none;
+}
+
+.tab-btn:hover {
+  color: rgba(255,255,255,0.85);
+}
+
+.tab-btn.active {
+  color: #fff;
+}
+
+/* Tab content area — full width, no jump */
+.tab-body {
+  margin-top: 48px;
+  position: relative;
+}
+
+/* All panels stacked in the same grid cell — wrapper height is
+   always the tallest panel, never shifts on tab switch */
+.tab-panels-wrapper {
+  display: grid;
+}
+
+.tab-panel {
+  grid-area: 1 / 1;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.tab-panel.active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  visibility: visible;
+}
+
+.tab-left-heading {
+  font-size: 1.9rem;
+  font-weight: 400;
+  line-height: 1.25;
+  margin: 0 0 20px 0;
+  color: #fff;
+}
+
+.tab-left-desc {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.72);
+  margin: 0 0 32px 0;
+}
+
+/* Feature bullet list */
+.tab-features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.tab-features li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 1rem;
+  color: rgba(255,255,255,0.8);
+  line-height: 1.5;
+}
+
+.tab-features li::before {
+  content: "";
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.25);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6l3 3 5-5' stroke='rgba(255,255,255,0.75)' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 12px 12px;
+}
+
+.tab-text-block {
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  display: flex;
+}
+
 </style>
 </head>
 
@@ -624,6 +771,100 @@ p {
       Simplify operations with a centralized, scalable platform for all your portfolio, relationship, and prospect data.
     </p>
   </div>
+</section>
+
+<!-- TABBED SECTION -->
+<section class="tabbed-section">
+  <div class="tab-intro">
+    <h4>THE SOLUTION</h4>
+    <h2>Simplify Portfolio Accounting and Reporting</h2>
+    <p>
+      In a complex and competitive investment landscape, you need to be on top of your game. The right technology can stack the odds in your favor. Enter Advent Portfolio Exchange (APX): the world's first integrated client relationship management and portfolio management solution.
+    </p>
+  </div>
+
+  <!-- Tab navigation — pill style -->
+  <nav class="tab-nav" role="tablist" aria-label="Regional tabs">
+    <button class="tab-btn active" role="tab" aria-selected="true"  data-tab="0">Strategy</button>
+    <button class="tab-btn"        role="tab" aria-selected="false" data-tab="1">Ecosystem</button>
+    <button class="tab-btn"        role="tab" aria-selected="false" data-tab="2">Video</button>
+    <button class="tab-btn"        role="tab" aria-selected="false" data-tab="3">Request Demo</button>
+    <div class="tab-indicator"></div>
+  </nav>
+
+  <!-- Tab content — full width, no jump -->
+  <div class="tab-body">
+    <div class="tab-panels-wrapper">
+
+      <!-- Strategy -->
+      <div class="tab-panel active" data-panel="0">
+        <h3 class="tab-left-heading">Envision your firm's strategy</h3>
+        <p>
+          Envision your firm's strategy, evaluate exposure, and gain a comprehensive view of your firm's performance over time while spending less time manually curating and manipulating your investment data. With Genesis Data Lens for APX, your investment data is curated, enriched, and ready to use.
+        </p>
+        <p>
+          Built on the robust infrastructure of the Genesis platform, Data Lens pulls in APX data and transforms it into actionable insight through structured aggregation and visualization.
+        </p>
+        <p>
+          Data Lens for APX resolves data integration, aggregation, and visualization challenges while it strengthens analytic and reporting capabilities to deliver truly insightful business intelligence.
+        </p>
+        <p>
+          Genesis' innovative architecture is powered by a unified data lake and data warehouse capable of storing any type of data. Our innovative, unifying data layer seamlessly integrates information across applications and functions, providing a single source of truth for stronger compliance, better informed decisions, and enhanced collaboration across teams.
+        </p>
+        <p>
+          Your front-office users can get a complete view of data from the portfolio accounting system of record (APX). Utilizing the latest technologies, Genesis offers added efficiency and accuracy to deliver faster, more comprehensive services and the underlying readiness for innovations to drive top-line growth.
+        </p>
+      </div>
+
+      <!-- Ecosystem -->
+      <div class="tab-panel" data-panel="1">
+      <div class="slide first-slide" style="padding: 0;">
+        <div class="text-block">
+          <h3>Commingled Ecosystem-wide Data</h3>
+          <p>
+            Gain a holistic view of data residing in multiple systems without complicated processes. Data Lens aggregates and integrates data from multiple sources across the ecosystem (APX and non-SS&C systems) into a unified dashboard or report for cross-source, comprehensive insights.
+          </p>
+          <h3>Streamlined Internal Report Distribution</h3>
+          <p>
+            You can generate and distribute internal reports without manual effort or inefficiency. Data Lens automates recurring reports and supports internal stakeholders' ad hoc analysis via managed data access.
+          </p>
+        </div>
+        <div class="slide-image">
+          <img src="thumbnail.jpg" alt="Thumbnail">
+        </div>
+      </div>
+      </div>
+
+      <!-- Video -->
+      <div class="tab-panel" data-panel="2">
+     <div class="slide" style="padding: 0;">
+        <div class="tab-text-block">
+          <h3>This could be a Vidyard video.</h3>
+          <p>This is a stock video for testing.</p>
+          <video controls width="100%" style="height:400px; width:auto;">
+            <source src="video.mp4" type="video/mp4">
+          </video>
+        </div>
+     </div>
+      </div>
+
+      <!-- Request Demo -->
+      <div class="tab-panel" data-panel="3">
+       <div class="slide split-slide" style="padding: 0;">
+        <div class="text-block">
+          <h3>Request a Demo</h3>
+          <p>
+            Please complete the form and one of representatives will contact you as soon as possible to schedule a demo.
+          </p>
+        </div>
+        <div class="slide-image" style="width: 75%;">
+          <img src="form-placeholder.jpg" alt="Thumbnail">
+        </div>
+      </div>
+      </div>
+
+    </div><!-- /tab-panels-wrapper -->
+  </div><!-- /tab-body -->
 </section>
 
 <!-- LIGHTBOX SECTION -->
@@ -1006,9 +1247,7 @@ document.querySelectorAll('.acc-item').forEach(item => {
     document.querySelectorAll('.acc-item').forEach(i => {
       const c = i.querySelector('.acc-content');
       if (i !== item && i.classList.contains('open')) {
-        // To close smoothly, we set height from 'auto' back to 'px'
         c.style.height = c.scrollHeight + 'px';
-        // Force a reflow so the browser recognizes the change
         void c.offsetHeight; 
         c.style.height = '0px';
         i.classList.remove('open');
@@ -1016,11 +1255,8 @@ document.querySelectorAll('.acc-item').forEach(item => {
     });
 
     if (!isOpen) {
-      // OPENING
       item.classList.add('open');
       content.style.height = content.scrollHeight + 'px';
-      
-      // We use a one-time listener to set height to auto after opening
       content.addEventListener('transitionend', function handler() {
         if (item.classList.contains('open')) {
           content.style.height = 'auto';
@@ -1028,12 +1264,8 @@ document.querySelectorAll('.acc-item').forEach(item => {
         content.removeEventListener('transitionend', handler);
       });
     } else {
-      // CLOSING (The fix)
-      // Set height to current pixel value instead of 'auto'
       content.style.height = content.scrollHeight + 'px';
-      // Force reflow
       void content.offsetHeight; 
-      // Now animate to 0
       content.style.height = '0px';
       item.classList.remove('open');
     }
@@ -1181,6 +1413,40 @@ closeModal.addEventListener('click', closeFunc);
 modalOverlay.addEventListener('click', (e) => {
   if (e.target === modalOverlay) closeFunc();
 });
+
+// =============================================
+// TABBED SECTION SCRIPT
+// =============================================
+(function() {
+  const tabBtns   = document.querySelectorAll('.tab-btn');
+  const tabPanels = document.querySelectorAll('.tab-panel');
+  const indicator = document.querySelector('.tab-indicator');
+
+  function moveIndicator(btn) {
+    indicator.style.left  = btn.offsetLeft + 'px';
+    indicator.style.width = btn.offsetWidth + 'px';
+  }
+
+  function activateTab(idx) {
+    tabBtns.forEach((b, i) => {
+      b.classList.toggle('active', i === idx);
+      b.setAttribute('aria-selected', i === idx);
+    });
+
+    tabPanels.forEach((p, i) => {
+      p.classList.toggle('active', i === idx);
+    });
+
+    moveIndicator(tabBtns[idx]);
+  }
+
+  tabBtns.forEach((btn, i) => {
+    btn.addEventListener('click', () => activateTab(i));
+  });
+
+  // Position indicator once fonts/layout are ready
+  requestAnimationFrame(() => moveIndicator(tabBtns[0]));
+})();
 </script>
 
 </body>
