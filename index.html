@@ -1472,8 +1472,7 @@ modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) c
   const container = document.getElementById('tech-scroll-container');
   const uiProgressBar = document.getElementById('tech-ui-progress');
   const navItems = document.querySelectorAll('.tech-nav-item');
-  const sections = document.querySelectorAll('.tech-content-pane');
-
+  const sections = document.querySelectorAll('.tech-content-pane, .tech-content-pane-full-width');
   window.addEventListener('scroll', () => {
     const containerRect = container.getBoundingClientRect();
     const containerHeight = container.offsetHeight;
@@ -1504,17 +1503,13 @@ modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) c
   });
 
   // Clicking an element runs global window coordinates transformation mapping
-  navItems.forEach((item, index) => {
-    item.addEventListener('click', () => {
-      const targetSection = sections[index];
-      const targetGlobalYPosition = window.scrollY + targetSection.getBoundingClientRect().top - (window.innerHeight / 4);
-
-      window.scrollTo({
-        top: targetGlobalYPosition,
-        behavior: 'smooth'
-      });
-    });
+navItems.forEach((item) => {
+  item.addEventListener('click', () => {
+    const targetId = item.getAttribute('data-target');
+    const targetSection = document.getElementById(targetId);
+    targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
+});
 })();
 </script>
 
