@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Example page</title>
+<title>Advent Portfolio Exchange</title>
 
 <style>
 * { box-sizing: border-box; }
@@ -12,11 +12,8 @@ body {
   font-family: Arial, sans-serif;
   background: #000;
   color: #fff;
-  scroll-snap-type: y mandatory;
-  overflow-y: scroll;
+  overflow-x: hidden;
 }
-
-section { scroll-snap-align: start; }
 
 /* =========================
    TYPOGRAPHY
@@ -55,7 +52,7 @@ p {
 }
 
 /* =========================
-   SECTIONS
+   GENERIC SECTIONS
    ========================= */
 .title-tile {
   height: 45vh;
@@ -74,10 +71,129 @@ p {
   padding: 75px;
 }
 
-/* =========================
-   LIGHTBOX SECTION
-   ========================= */
+/* =============================================
+   ALFA ROMEO STYLE STICKY SECTION
+   ============================================= */
+.tech-container {
+  background-color: #161616;
+  width: 100%;
+  position: relative;
+}
 
+.tech-intro-banner {
+  width: 100%;
+  padding: 100px 75px 20px 75px;
+}
+
+/* Structural wrapper governing the sticky timeline lifespan */
+.tech-sticky-wrapper {
+  display: flex;
+  position: relative;
+  width: 100%;
+  padding-bottom: 80px;
+}
+
+/* Left side navigation column tracking viewport */
+.tech-side-nav-container {
+  width: 380px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  padding-left: 75px;
+  padding-top: 50px;
+  z-index: 10;
+}
+
+/* The Vertical Progress Rail Architecture */
+.tech-progress-rail {
+  position: relative;
+  width: 2px;
+  height: 220px;
+  background: rgba(255, 255, 255, 0.1);
+  margin-right: 35px;
+  flex-shrink: 0;
+}
+
+.tech-progress-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0%;
+  background: #fff;
+  transition: height 0.05s linear;
+}
+
+.tech-nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.tech-nav-item {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 1.1rem;
+  font-family: inherit;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  padding: 4px 0;
+  transition: color 0.25s ease;
+  outline: none;
+  text-transform: uppercase;
+}
+
+.tech-nav-item:hover,
+.tech-nav-item.active {
+  color: #fff;
+}
+
+/* Right side content blocks moving on main page axis */
+.tech-content-column {
+  flex: 1;
+  padding-right: 75px;
+}
+
+.tech-content-pane {
+  padding: 50px 0;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  column-gap: 60px;
+  align-items: flex-start;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+}
+
+.tech-content-pane-full-width {
+  padding: 50px 0;
+  display: grid;
+  align-items: flex-start;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+}
+
+.tech-content-pane:last-child {
+  border-bottom: none;
+  padding-bottom: 50px;
+}
+
+.tech-text-pane {
+  display: flex;
+  flex-direction: column;
+}
+
+.tech-image-pane img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 4px;
+}
+
+/* =========================
+   LIGHTBOX GRID & BOXES
+   ========================= */
 .lightbox-section {
   background: #656565;
   padding: 75px;
@@ -106,12 +222,13 @@ p {
   border: none;
   color: #fff;
   cursor: pointer;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   transition: background 0.25s ease, transform 0.25s ease;
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
 }
 
 .lightbox-box:hover {
@@ -123,16 +240,6 @@ p {
   margin: 0;
 }
 
-/* =========================
-   LIGHTBOX CARD ICON
-   ========================= */
-
-.lightbox-box {
-  position: relative;
-  overflow: hidden;
-  border-radius: 12px;
-}
-
 .lightbox-icon {
   position: absolute;
   top: 16px;
@@ -142,44 +249,32 @@ p {
   display: flex;
   align-items: center;
   justify-content: center;
-    background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 8px;
-  transition: background 0.2s, border-color 0.2s, transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.lightbox-icon-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .lightbox-icon svg {
   width: 20px;
   height: 20px;
   fill: rgba(255, 255, 255, 0.7);
-  transition: fill 0.2s, transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .lightbox-box:hover .lightbox-icon {
   background: rgba(255, 255, 255, 0.15);
   border-color: rgba(255, 255, 255, 0.3);
+  transform: translate(2px, -2px);
 }
 
 .lightbox-box:hover .lightbox-icon svg {
   fill: #fff;
-}
-
-.lightbox-box:hover .lightbox-icon svg {
   transform: scale(1.25);
 }
 
-.lightbox-box:hover .lightbox-icon {
-  transform: translate(2px, -2px);
-}
-
 /* =========================
-   MODAL WINDOW
+   MODAL OVERLAY DISPLAY
    ========================= */
 .modal-overlay {
   position: fixed;
@@ -187,18 +282,15 @@ p {
   left: 0;
   width: 100%;
   height: 100%;
-  /* 2) More transparent overlay */
   background: rgba(0, 0, 0, 0.45); 
   backdrop-filter: blur(8px);
   z-index: 10000;
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.4s ease;
-  
   overflow-y: auto;
   display: block; 
   scrollbar-width: none;
-  -ms-overflow-style: none;
 }
 
 .modal-overlay::-webkit-scrollbar {
@@ -208,12 +300,10 @@ p {
 .modal-content {
   background: #222;
   width: calc(100% - 40px);
-  /* 1) Wider Modal (+150px) */
   max-width: 1050px; 
   margin: 60px auto; 
   border-radius: 16px;
-  position: relative; /* Anchor for close button */
-  
+  position: relative;
   transform: translateY(40px);
   transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -227,7 +317,6 @@ p {
   transform: translateY(0);
 }
 
-/* 3) Close button inside modal */
 .close-modal {
   position: absolute; 
   top: 20px;
@@ -255,7 +344,6 @@ p {
   transform: scale(1.1);
 }
 
-/* This makes the X spin 90 degrees on hover */
 .close-modal:hover svg {
   transform: rotate(90deg);
 }
@@ -270,7 +358,7 @@ p {
 }
 
 /* =========================
-   SWIPER CORE
+   SWIPER ENGINE LAYOUT
    ========================= */
 .swiper {
   position: relative;
@@ -292,9 +380,6 @@ p {
   padding: 75px;
 }
 
-/* =========================
-   FIRST SLIDE LAYOUT
-   ========================= */
 .first-slide {
   display: grid;
   grid-template-columns: 2fr 1fr;
@@ -342,7 +427,7 @@ p {
   text-align: center;
 }
 
-/* COLORS */
+/* Slide Base Color Configurations */
 .swiper-1 .slide:nth-child(1) { background: #2a2a2a; }
 .swiper-1 .slide:nth-child(2) { background: #3a3a3a; }
 .swiper-1 .slide:nth-child(3) { background: #4a4a4a; }
@@ -353,9 +438,6 @@ p {
 .swiper-2 .slide:nth-child(2) { background: #2f2f2f; }
 .swiper-2 .slide:nth-child(3) { background: #3f3f3f; }
 
-/* =========================
-   CONTROLS 
-   ========================= */
 .controls {
   position: absolute;
   bottom: 20px;
@@ -403,20 +485,11 @@ p {
 }
 
 .dot.active { background: #fff; }
+.stepper-dots { position: static; transform: none; pointer-events: auto; }
 
 /* =========================
-   STEPPER DOTS OVERRIDE
+   ACCORDION ARCHITECTURE
    ========================= */
-.stepper-dots {
-  position: static;
-  transform: none;
-  pointer-events: auto;
-}
-
-/* =========================
-   ACCORDION
-   ========================= */
-
 .accordion-wrapper {
   width: 100%;
   max-width: 1200px;
@@ -482,16 +555,11 @@ p {
   opacity: 0;
   transform: translateY(12px);
   color: #fff;
-  transition: 
-    opacity 0.45s ease, 
-    transform 0.45s ease;
+  transition: opacity 0.45s ease, transform 0.45s ease;
 }
 
 .acc-content-inner p:nth-child(1) { transition-delay: 0.05s; }
 .acc-content-inner p:nth-child(2) { transition-delay: 0.1s; }
-.acc-content-inner p:nth-child(3) { transition-delay: 0.15s; }
-.acc-content-inner p:nth-child(4) { transition-delay: 0.2s; }
-
 .acc-item.open .acc-content-inner p {
   opacity: 1;
   transform: translateY(0);
@@ -534,9 +602,8 @@ p {
 }
 
 /* =========================
-   STEPPER 
+   STEPPER ARCHITECTURE
    ========================= */
-   
 .stepper {
   width: 100%;
   position: relative;
@@ -553,15 +620,10 @@ p {
 .stepper .step {
   position: absolute;
   inset: 0;
-
   opacity: 0;
   transform: translateY(10px);
   pointer-events: none;
-
-  transition:
-    opacity 380ms cubic-bezier(0.4, 0, 0.2, 1),
-    transform 380ms cubic-bezier(0.4, 0, 0.2, 1);
-
+  transition: opacity 380ms cubic-bezier(0.4, 0, 0.2, 1), transform 380ms cubic-bezier(0.4, 0, 0.2, 1);
   will-change: opacity, transform;
 }
 
@@ -595,9 +657,8 @@ p {
 }
 
 /* =========================
-   TABBED SECTION
+   TABBED DECK ENGINE
    ========================= */
-
 .tabbed-section {
   background: rgb(78, 77, 77);
   padding: 75px;
@@ -607,7 +668,6 @@ p {
   justify-content: center;
 }
 
-/* Tab nav row — pill style */
 .tab-nav {
   display: inline-flex;
   align-items: center;
@@ -619,7 +679,6 @@ p {
   position: relative;
 }
 
-/* Sliding pill background */
 .tab-indicator {
   position: absolute;
   top: 5px;
@@ -649,22 +708,14 @@ p {
   outline: none;
 }
 
-.tab-btn:hover {
-  color: rgba(255,255,255,0.85);
-}
+.tab-btn:hover { color: rgba(255,255,255,0.85); }
+.tab-btn.active { color: #fff; }
 
-.tab-btn.active {
-  color: #fff;
-}
-
-/* Tab content area — full width, no jump */
 .tab-body {
   margin-top: 48px;
   position: relative;
 }
 
-/* All panels stacked in the same grid cell — wrapper height is
-   always the tallest panel, never shifts on tab switch */
 .tab-panels-wrapper {
   display: grid;
 }
@@ -693,60 +744,16 @@ p {
   color: #fff;
 }
 
-.tab-left-desc {
-  font-size: 1.05rem;
-  line-height: 1.6;
-  color: rgba(255,255,255,0.72);
-  margin: 0 0 32px 0;
-}
-
-/* Feature bullet list */
-.tab-features {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.tab-features li {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  font-size: 1rem;
-  color: rgba(255,255,255,0.8);
-  line-height: 1.5;
-}
-
-.tab-features li::before {
-  content: "";
-  flex-shrink: 0;
-  width: 18px;
-  height: 18px;
-  margin-top: 2px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.12);
-  border: 1px solid rgba(255,255,255,0.25);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6l3 3 5-5' stroke='rgba(255,255,255,0.75)' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 12px 12px;
-}
-
 .tab-text-block {
   flex-direction: column;
   align-items: center;
   text-align: center;
   display: flex;
 }
-
 </style>
 </head>
-
 <body>
 
-<!-- BANNER -->
 <section class="title-tile">
   <div>
     <h1>Advent Portfolio Exchange<sup style="font-size:20px">®</sup></h1>
@@ -756,7 +763,6 @@ p {
   </div>
 </section>
 
-<!-- OVERVIEW -->
 <section class="overview-tile">
   <div>
     <h4>THE SOLUTION</h4>
@@ -773,7 +779,82 @@ p {
   </div>
 </section>
 
-<!-- TABBED SECTION -->
+<section class="tech-container" id="tech-scroll-container">
+  <div class="tech-intro-banner">
+    <h4>THE SOLUTION</h4>
+    <h2>Sticky Left Nav Section</h2>
+    <p>In a complex and competitive investment landscape, you need to be on top of your game. The right technology can stack the odds in your favor. Enter Advent Portfolio Exchange (APX): the world's first integrated client relationship management and portfolio management solution.</p>
+  </div>
+
+  <div class="tech-sticky-wrapper">
+    <div class="tech-side-nav-container">
+      <div class="tech-progress-rail">
+        <div class="tech-progress-fill" id="tech-ui-progress"></div>
+      </div>
+      <nav class="tech-nav-list">
+        <button class="tech-nav-item active" data-target="pane-tech-1">Strategy</button>
+        <button class="tech-nav-item" data-target="pane-tech-2">Ecosystem</button>
+        <button class="tech-nav-item" data-target="pane-tech-3">Screenshot</button>
+        <button class="tech-nav-item" data-target="pane-tech-4">Video</button>
+      </nav>
+    </div>
+
+    <div class="tech-content-column">
+      <div class="tech-content-pane-full-width" id="pane-tech-1">
+        <div>
+        <h3>Envision your firm's strategy</h3>
+        <p>
+          Envision your firm's strategy, evaluate exposure, and gain a comprehensive view of your firm's performance over time while spending less time manually curating and manipulating your investment data. With Genesis Data Lens for APX, your investment data is curated, enriched, and ready to use.
+        </p>
+        <p>
+          Built on the robust infrastructure of the Genesis platform, Data Lens pulls in APX data and transforms it into actionable insight through structured aggregation and visualization.
+        </p>
+        <p>
+          Data Lens for APX resolves data integration, aggregation, and visualization challenges while it strengthens analytic and reporting capabilities to deliver truly insightful business intelligence.
+        </p>
+        </div>
+      </div>
+
+      <div class="tech-content-pane" id="pane-tech-2">
+        <div class="tech-text-pane">
+          <h3>Commingled Ecosystem-wide Data</h3>
+          <p>
+             Gain a holistic view of data residing in multiple systems without complicated processes. Data Lens aggregates and integrates data from multiple sources across the ecosystem into a unified dashboard.
+          </p>
+          <p>
+             This ensures comprehensive insights across all your data sources. Built on the robust infrastructure of the Genesis platform, Data Lens pulls in APX data and transforms it into actionable insight.
+          </p>
+        </div>
+        <div class="tech-image-pane">
+          <img src="thumbnail.jpg" alt="Integration Map Architectural Visual">
+        </div>
+      </div>
+
+      <div class="tech-content-pane-full-width" id="pane-tech-3">
+        <div class="tech-text-pane">
+          <h3>Streamlined Internal Report Distribution</h3>
+          <p>You can generate and distribute internal reports without manual effort or inefficiency. Data Lens maintains schedules, automates recurring reports, and supports stakeholders' ad hoc analysis via managed data access layers.</p>
+        </div>
+        <div class="tech-image-pane">
+          <img src="screenshot.png" alt="Security Infrastructure Visual">
+        </div>
+      </div>
+
+      <div class="tech-content-pane-full-width" id="pane-tech-4" style="border-bottom: none;">
+        <div class="tech-text-pane">
+          <h3>Built on the Robust Infrastructure of the Genesis Platform</h3>
+          <p>Envision your firm's strategy, evaluate exposure, and gain a comprehensive view of your firm's performance over time. You can generate and distribute internal reports without manual effort or inefficiency. Data Lens automates recurring reports and supports internal stakeholders' ad hoc analysis.</p>
+        </div>
+        <div class="tech-image-pane">
+          <video controls width="100%" style="width:100%;">
+            <source src="video.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="tabbed-section">
   <div class="tab-intro">
     <h4>THE SOLUTION</h4>
@@ -783,20 +864,16 @@ p {
     </p>
   </div>
 
-  <!-- Tab navigation — pill style -->
   <nav class="tab-nav" role="tablist" aria-label="Regional tabs">
-    <button class="tab-btn active" role="tab" aria-selected="true"  data-tab="0">Strategy</button>
-    <button class="tab-btn"        role="tab" aria-selected="false" data-tab="1">Ecosystem</button>
-    <button class="tab-btn"        role="tab" aria-selected="false" data-tab="2">Video</button>
-    <button class="tab-btn"        role="tab" aria-selected="false" data-tab="3">Request Demo</button>
+    <button class="tab-btn active" role="tab" aria-selected="true" data-tab="0">Strategy</button>
+    <button class="tab-btn" role="tab" aria-selected="false" data-tab="1">Ecosystem</button>
+    <button class="tab-btn" role="tab" aria-selected="false" data-tab="2">Video</button>
+    <button class="tab-btn" role="tab" aria-selected="false" data-tab="3">Request Demo</button>
     <div class="tab-indicator"></div>
   </nav>
 
-  <!-- Tab content — full width, no jump -->
   <div class="tab-body">
     <div class="tab-panels-wrapper">
-
-      <!-- Strategy -->
       <div class="tab-panel active" data-panel="0">
         <h3 class="tab-left-heading">Envision your firm's strategy</h3>
         <p>
@@ -816,103 +893,91 @@ p {
         </p>
       </div>
 
-      <!-- Ecosystem -->
       <div class="tab-panel" data-panel="1">
-      <div class="slide first-slide" style="padding: 0;">
-        <div class="text-block">
-          <h3>Commingled Ecosystem-wide Data</h3>
-          <p>
-            Gain a holistic view of data residing in multiple systems without complicated processes. Data Lens aggregates and integrates data from multiple sources across the ecosystem (APX and non-SS&C systems) into a unified dashboard or report for cross-source, comprehensive insights.
-          </p>
-          <h3>Streamlined Internal Report Distribution</h3>
-          <p>
-            You can generate and distribute internal reports without manual effort or inefficiency. Data Lens automates recurring reports and supports internal stakeholders' ad hoc analysis via managed data access.
-          </p>
+        <div class="slide first-slide" style="padding: 0;">
+          <div class="text-block">
+            <h3>Commingled Ecosystem-wide Data</h3>
+            <p>
+              Gain a holistic view of data residing in multiple systems without complicated processes. Data Lens aggregates and integrates data from multiple sources across the ecosystem (APX and non-SS&C systems) into a unified dashboard or report for cross-source, comprehensive insights.
+            </p>
+            <h3>Streamlined Internal Report Distribution</h3>
+            <p>
+              You can generate and distribute internal reports without manual effort or inefficiency. Data Lens maintains schedules, automates recurring reports, and supports stakeholders' ad hoc analysis via managed data access layers.
+            </p>
+          </div>
+          <div class="slide-image">
+            <img src="thumbnail.jpg" alt="Ecosystem Architectural Thumbnail">
+          </div>
         </div>
-        <div class="slide-image">
-          <img src="thumbnail.jpg" alt="Thumbnail">
-        </div>
-      </div>
       </div>
 
-      <!-- Video -->
       <div class="tab-panel" data-panel="2">
-     <div class="slide" style="padding: 0;">
-        <div class="tab-text-block">
-          <h3>This could be a Vidyard video.</h3>
-          <p>This is a stock video for testing.</p>
-          <video controls width="100%" style="height:400px; width:auto;">
-            <source src="video.mp4" type="video/mp4">
-          </video>
+        <div class="slide" style="padding: 0;">
+          <div class="tab-text-block">
+            <h3>This could be a Vidyard video.</h3>
+            <p>This is a stock video for testing.</p>
+            <video controls width="100%" style="height:400px; width:auto;">
+              <source src="video.mp4" type="video/mp4">
+            </video>
+          </div>
         </div>
-     </div>
       </div>
 
-      <!-- Request Demo -->
       <div class="tab-panel" data-panel="3">
-       <div class="slide split-slide" style="padding: 0;">
-        <div class="text-block">
-          <h3>Request a Demo</h3>
-          <p>
-            Please complete the form and one of representatives will contact you as soon as possible to schedule a demo.
-          </p>
-        </div>
-        <div class="slide-image" style="width: 75%;">
-          <img src="form-placeholder.jpg" alt="Thumbnail">
+        <div class="slide split-slide" style="padding: 0;">
+          <div class="text-block">
+            <h3>Request a Demo</h3>
+            <p>
+              Please complete the form and one of our representatives will contact you as soon as possible to schedule a demo.
+            </p>
+          </div>
+          <div class="slide-image" style="width: 75%;">
+            <img src="form-placeholder.jpg" alt="Form Field Placeholder Area">
+          </div>
         </div>
       </div>
-      </div>
-
-    </div><!-- /tab-panels-wrapper -->
-  </div><!-- /tab-body -->
+    </div>
+  </div>
 </section>
 
-<!-- LIGHTBOX SECTION -->
 <section class="lightbox-section">
   <h4>LIGHTBOXES</h4>
   <h2>Lightbox Demo</h2>
-  <p>This is another possibility for displaying content. Each box is clickable and will open a lightbox.</p>
+  <p>This is another possibility for displaying content. Each box is clickable and will open a lightbox popup display.</p>
 
   <div class="lightbox-grid">
     <button class="lightbox-box" data-modal="box1">
       <div class="lightbox-icon">
-        <div class="lightbox-icon-wrapper">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M13.75 6.75L10.25 6.75L10.25 5L15.5 5L15.5 10.25L13.75 10.25L13.75 6.75Z"></path>
-            <path d="M6.75 10.25L5 10.25L5 15.5L10.25 15.5L10.25 13.75L6.75 13.75L6.75 10.25Z"></path>
-          </svg>
-        </div>
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M13.75 6.75L10.25 6.75L10.25 5L15.5 5L15.5 10.25L13.75 10.25L13.75 6.75Z"></path>
+          <path d="M6.75 10.25L5 10.25L5 15.5L10.25 15.5L10.25 13.75L6.75 13.75L6.75 10.25Z"></path>
+        </svg>
       </div>
       <h3>A lot of content in the popup</h3>
     </button>
 
     <button class="lightbox-box" data-modal="box2">
       <div class="lightbox-icon">
-        <div class="lightbox-icon-wrapper">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M13.75 6.75L10.25 6.75L10.25 5L15.5 5L15.5 10.25L13.75 10.25L13.75 6.75Z"></path>
-            <path d="M6.75 10.25L5 10.25L5 15.5L10.25 15.5L10.25 13.75L6.75 13.75L6.75 10.25Z"></path>
-          </svg>
-        </div>
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M13.75 6.75L10.25 6.75L10.25 5L15.5 5L15.5 10.25L13.75 10.25L13.75 6.75Z"></path>
+          <path d="M6.75 10.25L5 10.25L5 15.5L10.25 15.5L10.25 13.75L6.75 13.75L6.75 10.25Z"></path>
+        </svg>
       </div>
       <h3>Video</h3>
     </button>
 
     <button class="lightbox-box" data-modal="box3">
       <div class="lightbox-icon">
-        <div class="lightbox-icon-wrapper">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M13.75 6.75L10.25 6.75L10.25 5L15.5 5L15.5 10.25L13.75 10.25L13.75 6.75Z"></path>
-            <path d="M6.75 10.25L5 10.25L5 15.5L10.25 15.5L10.25 13.75L6.75 13.75L6.75 10.25Z"></path>
-          </svg>
-        </div>
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M13.75 6.75L10.25 6.75L10.25 5L15.5 5L15.5 10.25L13.75 10.25L13.75 6.75Z"></path>
+          <path d="M6.75 10.25L5 10.25L5 15.5L10.25 15.5L10.25 13.75L6.75 13.75L6.75 10.25Z"></path>
+        </svg>
       </div>
       <h3>Form</h3>
     </button>
   </div>
 </section>
 
-<!-- SWIPER SECTION -->
 <section class="swiper swiper-1">
   <div class="viewport">
     <div class="slides">
@@ -933,7 +998,7 @@ p {
           </p>
         </div>
         <div class="slide-image">
-          <img src="thumbnail.jpg" alt="Thumbnail">
+          <img src="thumbnail.jpg" alt="Data Lens Thumbnail Image">
         </div>
       </div>
 
@@ -953,7 +1018,7 @@ p {
           </p>
         </div>
         <div class="slide-image">
-          <img src="thumbnail.jpg" alt="Thumbnail">
+          <img src="thumbnail.jpg" alt="Data Distribution Thumbnail">
         </div>
       </div>      
 
@@ -990,11 +1055,11 @@ p {
           </p>
         </div>
         <div class="slide-image">
-          <img src="form-placeholder.jpg" alt="Thumbnail">
+          <img src="form-placeholder.jpg" alt="Form Field Template Area">
         </div>
       </div>
 
-     <div class="slide">
+      <div class="slide">
         <div class="header-block">
           <h4>VIDEO</h4>
           <h2>Watch a Video</h2>
@@ -1006,7 +1071,7 @@ p {
             <source src="video.mp4" type="video/mp4">
           </video>
         </div>
-     </div>
+      </div>
     </div>
   </div>
   <div class="controls">
@@ -1016,110 +1081,103 @@ p {
   </div>
 </section>
 
-<!-- SECTION WITH STEPPER -->
 <section class="slide">
-      <div class="second-slide">
-        <div class="header-block">
-          <h4>FEATURED PRODUCT BRIEF</h4>
-          <h2>Genesis Data Lens for APX</h2>
-          <div class="text-block" style="padding:0; margin-top:20px;">
-             <p>
-               Genesis' innovative architecture is powered by a unified data lake and data warehouse capable of storing any type of data. Our innovative, unifying data layer seamlessly integrates information across applications and functions, providing a single source of truth for stronger compliance, better informed decisions, and enhanced collaboration across teams.
-             </p>
-             <p>
-               Data Lens for APX resolves data integration, aggregation, and visualization challenges.
-             </p>
-          </div>
+  <div class="second-slide">
+    <div class="header-block">
+      <h4>FEATURED PRODUCT BRIEF</h4>
+      <h2>Genesis Data Lens for APX</h2>
+      <div class="text-block" style="padding:0; margin-top:20px;">
+         <p>
+           Genesis' innovative architecture is powered by a unified data lake and data warehouse capable of storing any type of data. Our innovative, unifying data layer seamlessly integrates information across applications and functions, providing a single source of truth for stronger compliance, better informed decisions, and enhanced collaboration across teams.
+         </p>
+         <p>
+           Data Lens for APX resolves data integration, aggregation, and visualization challenges.
+         </p>
+      </div>
+    </div>
+    
+    <div class="stepper">
+      <div class="step-content-area">
+        <div class="step active">
+          <h3>Commingled Ecosystem-wide Data</h3>
+          <p>
+             Gain a holistic view of data residing in multiple systems without complicated processes. Data Lens aggregates and integrates data from multiple sources across the ecosystem into a unified dashboard.
+          </p>
+          <p>
+             This ensures comprehensive insights across all your data sources. Built on the robust infrastructure of the Genesis platform, Data Lens pulls in APX data and transforms it into actionable insight.
+          </p>
         </div>
-        
-        <div class="stepper">
-          <div class="step-content-area">
-            <div class="step active">
-              <h3>Commingled Ecosystem-wide Data</h3>
-              <p>
-                Gain a holistic view of data residing in multiple systems without complicated processes. Data Lens aggregates and integrates data from multiple sources across the ecosystem into a unified dashboard.
-              </p>
-              <p>
-                This ensures comprehensive insights across all your data sources. Built on the robust infrastructure of the Genesis platform, Data Lens pulls in APX data and transforms it into actionable insight.
-              </p>
-            </div>
-            <div class="step">
-              <h3>Streamlined Internal Report Distribution</h3>
-              <p>
-                You can generate and distribute internal reports without manual effort or inefficiency. Data Lens automates recurring reports and supports internal stakeholders' ad hoc analysis.
-              <p>
-                With its flexible cloud architecture, the Genesis platform continues to expand its breadth and depth, now adding Data Lens as its third point application alongside order and portfolio management. The APX development team continues to build out capabilities across operations, performance & risk, investor management, and managed services for the platform. Over the long term, Genesis also plans to leverage its modern, flexible architecture and unified data store to drive enhancements such as artificial intelligence (AI) interrogation and custom firm-data integrations.
-              </p>
-              </p>
-            </div>
-            <div class="step">
-              <h3>Built on the Robust Infrastructure of the Genesis Platform</h3>
-              <p>
-                Envision your firm's strategy, evaluate exposure, and gain a comprehensive view of your firm's performance over time. You can generate and distribute internal reports without manual effort or inefficiency. Data Lens automates recurring reports and supports internal stakeholders' ad hoc analysis.
-              </p>
-              <p>
-                Data Lens for APX strengthens analytic and reporting capabilities to deliver truly insightful business intelligence.
-              </p>
-            </div>
-          </div>
-
-          <div class="step-controls">
-            <a class="step-back hidden" style="text-decoration: none; font-size: 14px;">BACK</a>
-            <div class="dots stepper-dots"></div>
-            <a class="step-next" style="text-decoration: none; font-size: 14px;">NEXT</a>
-          </div>
+        <div class="step">
+          <h3>Streamlined Internal Report Distribution</h3>
+          <p>
+             You can generate and distribute internal reports without manual effort or inefficiency. Data Lens automates recurring reports and supports internal stakeholders' ad hoc analysis.
+          </p>
+          <p>
+             With its flexible cloud architecture, the Genesis platform continues to expand its breadth and depth, now adding Data Lens as its third point application alongside order and portfolio management. The APX development team continues to build out capabilities across operations, performance & risk, investor management, and managed services for the platform. Over the long term, Genesis also plans to leverage its modern, flexible architecture and unified data store to drive enhancements such as artificial intelligence (AI) interrogation and custom firm-data integrations.
+          </p>
+        </div>
+        <div class="step">
+          <h3>Built on the Robust Infrastructure of the Genesis Platform</h3>
+          <p>
+             Envision your firm's strategy, evaluate exposure, and gain a comprehensive view of your firm's performance over time. You can generate and distribute internal reports without manual effort or inefficiency. Data Lens automates recurring reports and supports internal stakeholders' ad hoc analysis.
+          </p>
+          <p>
+             Data Lens for APX strengthens analytic and reporting capabilities to deliver truly insightful business intelligence.
+          </p>
         </div>
       </div>
-</section>
 
-<!-- SECTION WITH STEPPER NO LEFT COLUMN -->
-<section class="slide" style="background-color: rgb(82, 81, 81)">
-    <div class="full-width-stepper" style="padding: 0; width: 100%;">
-        <div class="stepper">
-            <div class="step-content-area">
-                <div class="step active">
-                    <h3>
-                      Your single operational experience to power your investment strategies.
-                    </h3>
-                    <p>
-                      The Genesis platform offers deep, purpose-built applications covering all facets of the investment lifecycle - portfolio management, trading, analytics, accounting, and reporting. Built on a centralized cloud-based data store, the platform enables teams to access their everyday solutions in one place. Everyone on your team, from the front to the back office, can trust that they are working with the same data. Streamline operations, speed up workflows, optimize efficiency and accuracy, gain agility, and drive firm-wide collaboration. The Genesis platform is exactly what you need to set your firm up for success in an increasingly complex, competitive, and fast-paced marketplace.
-                    </p>
-                    <p>
-                      Genesis is your unified, cloud-native platform built for flexibility and scale – empowering you to modernize at your own pace, without costly workarounds or fragmented systems.
-                    </p>
-                </div>
-                <div class="step">
-                    <h3>One Platform. Every Role. Total Clarity.</h3>
-                    <p>
-                      Genesis is a cloud native, intelligent enterprise investment management platform that unifies data, workflows, and teams across your entire investment office. By eliminating fragmented systems and real time data gaps, Genesis gives portfolio managers, traders, and operations teams a single source of truth—powering faster decisions, cleaner execution, and scalable growth.
-                    </p>
-                    <p>
-                      Genesis is a unified, cloud-native investment management solution that connects your entire investment office on a single, trusted data platform. Built for the way firms serving private and institutional investors — or both - work today, Genesis eliminates silos and enables real-time interoperability across the entire investment lifecycle including, portfolio management, trading, accounting, and reporting.
-                    </p>
-                </div>
-                <div class="step">
-                    <h3>
-                      Unified Applications for the Modern Investment Office
-                    </h3>
-                    <p>
-                      Genesis delivers seamlessly connected applications—each purpose-built to empower every role across your investment office. Data Analytics & Insights: Advanced analytics and visualization tools for portfolio analysis and decision-making. Portfolio Management: Model, construct, and rebalance portfolios at scale, with real-time scenario analysis, exception monitoring, and support for multi-asset, multi-sleeve, and multi-currency strategies.
-                    </p>
-                    <p>
-                      Trading & Compliance: OMS workflows with real-time compliance checks, market connectivity, and seamless market data integration. Accounting & Operations: Complete IBOR/ABOR functionality for accurate, real-time valuations and reconciliations. Managed operations offerings free up time.
-                    </p>
-                </div>
-            </div>
-
-            <div class="step-controls">
-                <a class="step-back hidden" style="text-decoration: none; font-size: 14px;">BACK</a>
-                <div class="dots stepper-dots"></div>
-                <a class="step-next" style="text-decoration: none; font-size: 14px;">NEXT</a>
-            </div>
-        </div>
+      <div class="step-controls">
+        <a class="step-back hidden" style="text-decoration: none; font-size: 14px;">BACK</a>
+        <div class="dots stepper-dots"></div>
+        <a class="step-next" style="text-decoration: none; font-size: 14px;">NEXT</a>
+      </div>
     </div>
+  </div>
 </section>
 
-<!-- ACCORDION SECTION -->
+<section class="slide" style="background-color: rgb(82, 81, 81)">
+  <div class="full-width-stepper" style="padding: 0; width: 100%;">
+    <div class="stepper">
+      <div class="step-content-area">
+        <div class="step active">
+          <h3>Your single operational experience to power your investment strategies.</h3>
+          <p>
+            The Genesis platform offers deep, purpose-built applications covering all facets of the investment lifecycle - portfolio management, trading, analytics, accounting, and reporting. Built on a centralized cloud-based data store, the platform enables teams to access their everyday solutions in one place. Everyone on your team, from the front to the back office, can trust that they are working with the same data. Streamline operations, speed up workflows, optimize efficiency and accuracy, gain agility, and drive firm-wide collaboration. The Genesis platform is exactly what you need to set your firm up for success in an increasingly complex, competitive, and fast-paced marketplace.
+          </p>
+          <p>
+            Genesis is your unified, cloud-native platform built for flexibility and scale – empowering you to modernize at your own pace, without costly workarounds or fragmented systems.
+          </p>
+        </div>
+        <div class="step">
+          <h3>One Platform. Every Role. Total Clarity.</h3>
+          <p>
+            Genesis is a cloud native, intelligent enterprise investment management platform that unifies data, workflows, and teams across your entire investment office. By eliminating fragmented systems and real time data gaps, Genesis gives portfolio managers, traders, and operations teams a single source of truth—powering faster decisions, cleaner execution, and scalable growth.
+          </p>
+          <p>
+            Genesis is a unified, cloud-native investment management solution that connects your entire investment office on a single, trusted data platform. Built for the way firms serving private and institutional investors — or both - work today, Genesis eliminates silos and enables real-time interoperability across the entire investment lifecycle including, portfolio management, trading, accounting, and reporting.
+          </p>
+        </div>
+        <div class="step">
+          <h3>Unified Applications for the Modern Investment Office</h3>
+          <p>
+            Genesis delivers seamlessly connected applications—each purpose-built to empower every role across your investment office. Data Analytics & Insights: Advanced analytics and visualization tools for portfolio analysis and decision-making. Portfolio Management: Model, construct, and rebalance portfolios at scale, with real-time scenario analysis, exception monitoring, and support for multi-asset, multi-sleeve, and multi-currency strategies.
+          </p>
+          <p>
+            Trading & Compliance: OMS workflows with real-time compliance checks, market connectivity, and seamless market data integration. Accounting & Operations: Complete IBOR/ABOR functionality for accurate, real-time valuations and reconciliations. Managed operations offerings free up time.
+          </p>
+        </div>
+      </div>
+
+      <div class="step-controls">
+        <a class="step-back hidden" style="text-decoration: none; font-size: 14px;">BACK</a>
+        <div class="dots stepper-dots"></div>
+        <a class="step-next" style="text-decoration: none; font-size: 14px;">NEXT</a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="overview-tile">
   <div class="accordion-wrapper">
     <h4>ACCORDION</h4>
@@ -1134,10 +1192,10 @@ p {
         </button>
         <div class="acc-content">
           <div class="acc-content-inner">
-              <h3>Commingled Ecosystem-wide Data</h3>
-              <p>
-                Gain a holistic view of data residing in multiple systems without complicated processes. Data Lens aggregates and integrates data from multiple sources across the ecosystem into a unified dashboard. This ensures comprehensive insights across all your data sources. Built on the robust infrastructure of the Genesis platform, Data Lens pulls in APX data and transforms it into actionable insight.
-              </p>
+            <h3>Commingled Ecosystem-wide Data</h3>
+            <p>
+              Gain a holistic view of data residing in multiple systems without complicated processes. Data Lens aggregates and integrates data from multiple sources across the ecosystem into a unified dashboard. This ensures comprehensive insights across all your data sources. Built on the robust infrastructure of the Genesis platform, Data Lens pulls in APX data and transforms it into actionable insight.
+            </p>
           </div>
         </div>
       </div>
@@ -1162,9 +1220,9 @@ p {
                   </p>
                 </div>
                 <div class="slide-image">
-                  <img src="thumbnail.jpg" alt="Thumbnail">
+                  <img src="thumbnail.jpg" alt="Accordion Content Visual">
                 </div>
-              </div>      
+              </div>     
           </div>
         </div>
       </div>
@@ -1188,16 +1246,13 @@ p {
   </div>
 </section>
 
-<!-- MODAL CONTAINER -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal-content">
-    <!-- 3) Close button moved inside -->
     <button class="close-modal" id="closeModal">
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M15 5L5 15M5 5l10 10"/>
       </svg>
     </button>
-    
     <div class="modal-inner-padding">
       <h2 id="modalTitle"></h2>
       <div id="modalBody"></div>
@@ -1206,7 +1261,7 @@ p {
 </div>
 
 <script>
-// SWIPER SCRIPT
+// SWIPER CORE LOGIC RUNTIME
 document.querySelectorAll('.swiper').forEach(swiper => {
   const slides = swiper.querySelector('.slides');
   const slideCount = slides.children.length;
@@ -1235,7 +1290,7 @@ document.querySelectorAll('.swiper').forEach(swiper => {
   update();
 });
 
-// ACCORDION SCRIPT
+// ACCORDION TOGGLE EVENT LIFECYCLE
 document.querySelectorAll('.acc-item').forEach(item => {
   const header = item.querySelector('.acc-header');
   const content = item.querySelector('.acc-content');
@@ -1243,7 +1298,6 @@ document.querySelectorAll('.acc-item').forEach(item => {
   header.addEventListener('click', () => {
     const isOpen = item.classList.contains('open');
 
-    // Close all other items
     document.querySelectorAll('.acc-item').forEach(i => {
       const c = i.querySelector('.acc-content');
       if (i !== item && i.classList.contains('open')) {
@@ -1272,7 +1326,7 @@ document.querySelectorAll('.acc-item').forEach(item => {
   });
 });
 
-// STEPPER SCRIPT
+// STEPPER ENGINE STATE CONTROLLER
 document.addEventListener("DOMContentLoaded", () => {
   const steppers = document.querySelectorAll(".stepper");
   
@@ -1323,7 +1377,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-// LIGHTBOX LOGIC
+// LIGHTBOX EXTENDED DATA ARCHIVE & RUNTIME
 const modalOverlay = document.getElementById('modalOverlay');
 const modalTitle = document.getElementById('modalTitle');
 const modalBody = document.getElementById('modalBody');
@@ -1338,52 +1392,25 @@ const modalData = {
     title: "Genesis", 
     body: `
       <h3>One Platform. Every Role. Total Clarity.</h3>
-      <p>
-        Genesis is a unified, cloud-native investment management solution that connects your entire investment office on a single, trusted data platform. Built for the way firms serving private and institutional investors — or both-work today, Genesis eliminates silos and enables real-time interoperability across the entire investment lifecycle including, portfolio management, trading, accounting, and reporting.
-      </p> 
-      <p>
-        Genesis empowers every team to access the data and applications they need — without swiveling between or stitching together systems. Portfolio Managers: Real-time insights, scenario modeling, and performance analytics that accelerate and improve decision-making. 
-      </p>
-      <p>
-        Traders: Integrated blotters, compliance checks, and market data in a single workflow for faster execution. 
-      </p>
-      <p>
-        Investment Operations: Transparency into positions, cash, and reconciliations enabling operational efficiency.
-      </p>
-        <img src="thumbnail.jpg" style="width:100%; margin: 20px 0;">
-      <p>
-        At the core of Genesis is a single, enterprise-wide data platform that synchronizes fragmented data into one source of truth, powering seamless workflows and actionable insights across all teams.
-      </p>
-      <p>
-        Data consistency and integrity: A single, shared data source and real-time and intraday synchronization ensure teams are aligned. 
-      </p>
-      <p>
-        Governance and Security: Built-in governance and security ensure data integrity and regulatory confidence. Workflows and actionable insights across all teams.
-      </p>
-      <p>
-        Maximum flexibility: Modernize and scale your investment office on your timeline, with a cloud-native platform that makes it easy to add functionality as needed without disruption.
-      </p>
+      <p>Genesis is a unified, cloud-native investment management solution that connects your entire investment office on a single, trusted data platform.</p> 
+      <p>Genesis empowers every team to access the data and applications they need — without swiveling between or stitching together systems.</p>
+      <img src="thumbnail.jpg" style="width:100%; margin: 20px 0;">
+      <p>At the core of Genesis is a single, enterprise-wide data platform that synchronizes fragmented data into one source of truth.</p>
     ` 
   },
   box2: { 
     title: "Video", 
     body: `
-      <p>
-        Genesis is a unified, cloud-native investment management solution that connects your entire investment office on a single, trusted data platform. Built for the way firms serving private and institutional investors — or both-work today, Genesis eliminates silos and enables real-time interoperability across the entire investment lifecycle including, portfolio management, trading, accounting, and reporting.
-      </p> 
-      <video controls width="100%">
-        <source src="video.mp4" type="video/mp4">
-      </video>
+      <p>Genesis is a unified, cloud-native investment management solution that connects your entire investment office on a single, trusted data platform.</p> 
+      <video controls width="100%"><source src="video.mp4" type="video/mp4"></video>
     ` 
   },
   box3: { 
     title: "Contact Us", 
     body: `
-      <p>
-        Contact us with questions, comments or feedback.
-      </p>
+      <p>Contact us with questions, comments or feedback.</p>
       <img src="form-placeholder.jpg" style="width:100%; margin: 20px 0;">
-      ` 
+    ` 
   }
 };
 
@@ -1396,7 +1423,6 @@ document.querySelectorAll('.lightbox-box').forEach(box => {
     const scrollbarWidth = getScrollbarWidth();
     document.body.style.paddingRight = `${scrollbarWidth}px`;
     document.body.style.overflow = 'hidden';
-
     modalOverlay.classList.add('active');
   });
 });
@@ -1410,13 +1436,9 @@ const closeFunc = () => {
 };
 
 closeModal.addEventListener('click', closeFunc);
-modalOverlay.addEventListener('click', (e) => {
-  if (e.target === modalOverlay) closeFunc();
-});
+modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeFunc(); });
 
-// =============================================
-// TABBED SECTION SCRIPT
-// =============================================
+// TABBED CONFIGURATION INTERACTION SYSTEM
 (function() {
   const tabBtns   = document.querySelectorAll('.tab-btn');
   const tabPanels = document.querySelectorAll('.tab-panel');
@@ -1432,11 +1454,7 @@ modalOverlay.addEventListener('click', (e) => {
       b.classList.toggle('active', i === idx);
       b.setAttribute('aria-selected', i === idx);
     });
-
-    tabPanels.forEach((p, i) => {
-      p.classList.toggle('active', i === idx);
-    });
-
+    tabPanels.forEach((p, i) => p.classList.toggle('active', i === idx));
     moveIndicator(tabBtns[idx]);
   }
 
@@ -1444,8 +1462,59 @@ modalOverlay.addEventListener('click', (e) => {
     btn.addEventListener('click', () => activateTab(i));
   });
 
-  // Position indicator once fonts/layout are ready
   requestAnimationFrame(() => moveIndicator(tabBtns[0]));
+})();
+
+// =============================================================
+// TRUE ALFA ROMEO STICKY SCROLL & RUNTIME PROGRESS TRACKER
+// =============================================================
+(function() {
+  const container = document.getElementById('tech-scroll-container');
+  const uiProgressBar = document.getElementById('tech-ui-progress');
+  const navItems = document.querySelectorAll('.tech-nav-item');
+  const sections = document.querySelectorAll('.tech-content-pane');
+
+  window.addEventListener('scroll', () => {
+    const containerRect = container.getBoundingClientRect();
+    const containerHeight = container.offsetHeight;
+    
+    // Calculates how far through the entire block the user is scrolling
+    const scrollStartOffset = containerRect.top;
+    const availableScrollDistance = containerHeight - window.innerHeight;
+
+    let globalProgress = 0;
+    if (scrollStartOffset < 0) {
+      globalProgress = (Math.abs(scrollStartOffset) / availableScrollDistance) * 100;
+    }
+    
+    // Safety clamp 0% - 100% boundary metrics
+    globalProgress = Math.min(Math.max(globalProgress, 0), 100);
+    uiProgressBar.style.height = `${globalProgress}%`;
+
+    // Active state highlighting updates based on spatial viewport coordinate bounds
+    sections.forEach((section, index) => {
+      const sectionRect = section.getBoundingClientRect();
+      const visualMidpoint = window.innerHeight / 2;
+
+      if (sectionRect.top <= visualMidpoint && sectionRect.bottom >= visualMidpoint) {
+        navItems.forEach(item => item.classList.remove('active'));
+        navItems[index].classList.add('active');
+      }
+    });
+  });
+
+  // Clicking an element runs global window coordinates transformation mapping
+  navItems.forEach((item, index) => {
+    item.addEventListener('click', () => {
+      const targetSection = sections[index];
+      const targetGlobalYPosition = window.scrollY + targetSection.getBoundingClientRect().top - (window.innerHeight / 4);
+
+      window.scrollTo({
+        top: targetGlobalYPosition,
+        behavior: 'smooth'
+      });
+    });
+  });
 })();
 </script>
 
