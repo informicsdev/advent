@@ -1494,7 +1494,7 @@ modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) c
     // Active state highlighting updates based on spatial viewport coordinate bounds
     sections.forEach((section, index) => {
       const sectionRect = section.getBoundingClientRect();
-      const visualMidpoint = window.innerHeight / 2;
+      const visualMidpoint = window.innerHeight * 0.1;
 
       if (sectionRect.top <= visualMidpoint && sectionRect.bottom >= visualMidpoint) {
         navItems.forEach(item => item.classList.remove('active'));
